@@ -10,30 +10,25 @@ function App() {
         const fetchData = async () => {
         const db = firebase.firestore();
         const data = await db.collection("questions").get();
-  
-        
-        setSpells(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        setSpells(data.docs.map((doc) => ({ ...doc.data()})));
   
       };
-  
-      fetchData();
+    fetchData();
   
     }, []);
   
 
     return (
-    
+  
         <ol>
-    
           {spells.map((spell) => (
               
             <li key={spell.title}>
-                {console.log(spell.title)} 
+                {console.log(spell)} 
               <h3>{spell.title}</h3><br/>
               <input type="radio" />{spell.option1}<br/>
               <input type="radio" />{spell.option2}<br/>
               <input type="radio" />{spell.option3}<br/>
-                {console.log(spell)} 
              </li>
     
           ))}
