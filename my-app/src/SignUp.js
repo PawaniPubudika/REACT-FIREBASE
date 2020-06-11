@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { withRouter } from "react-router";
 import app from "./firebase";
+import firebase from "./firebase";
 
 const SignUp = ({ history }) => {
   const handleSignUp = useCallback(async event => {
@@ -11,6 +12,15 @@ const SignUp = ({ history }) => {
         .auth()
         .createUserWithEmailAndPassword(email.value, password.value);
       history.push("/");
+      const db = firebase.firestore();
+      db.collection("user_data").add({
+        email: email.value,
+        attempt1: "",
+        attempt2: "",
+        attempt3: "",
+      });
+
+
     } catch (error) {
       alert(error);
     }

@@ -1,11 +1,15 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext} from "react";
 import { withRouter, Redirect } from "react-router";
 import app from "./firebase.js";
 import { AuthContext } from "./Auth.js";
 // import SignUp from "./SignUp.js";
 import './login.css'
 
+
 const Login = ({ history }) => {
+  // const [mail, setsmail] = useState([]);
+
+
   const handleLogin = useCallback(
     async event => {
       event.preventDefault();
@@ -14,6 +18,15 @@ const Login = ({ history }) => {
         await app
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
+          
+
+          // let m=email.value;
+          // setsmail(m);
+          // console.log(mail);
+          // console.log(m);
+          // const db=firebase.firestore();
+          // db.collection("scores").add({email:email.value});
+  
         history.push("/");
       } catch (error) {
         alert(error);
@@ -23,10 +36,14 @@ const Login = ({ history }) => {
   );
 
   const { currentUser } = useContext(AuthContext);
+  
 
   if (currentUser) {
     return <Redirect to="/" />;
   }
+
+
+  
 
   return (
     <div>
