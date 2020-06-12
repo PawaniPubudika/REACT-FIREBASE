@@ -18,6 +18,7 @@ const Home = () => {
   const [userAnswers, setUserAnswers] = React.useState([]);
 
         useEffect(() => {
+          
         const fetchData = async() => {
         const db = firebase.firestore();
         const data = await db.collection("questions").get();
@@ -27,10 +28,26 @@ const Home = () => {
         
   
       };
+
+
+        
     fetchData();
   
     }, []);
 
+      useEffect(()=>{
+        let userdetailsArray=userDetails;
+
+        for(let i=0;i<userdetailsArray.length;i++){
+          if(userdetailsArray[i].email===currentUser.email){
+            if(userdetailsArray[i].attempt3!==""){
+            alert("you tried maximum attempt!!!");
+            }
+          }}
+
+
+
+      },[userDetails])
 
     function handleChange(quizId, correctAnswer, userSelection) {
       let selectionArray = userAnswers;
@@ -80,40 +97,38 @@ const Home = () => {
              
 
     
-     //create userdetails array equal userdetails to it        
+           
      let userdetailsArray=userDetails;
 
       console.log(userdetailsArray);
-      //check every user email in userdetailsArray equal to currentUser email
+     
       for(let i=0;i<userdetailsArray.length;i++){
+        const db = firebase.firestore();
       if(userdetailsArray[i].email===currentUser.email){
-        // alert("done");
-        // alert(userdetailsArray[i].email+""+currentUser.email);
-        //check attempt
-        //if it is equal? then check ,in that object attempt1 is null? if it is null then update score(attempt1-->score)
+        
         if(userdetailsArray[i].attempt1===""){
           // alert("hi");
-          const db = firebase.firestore();
+          
           db.collection("user_data").doc(userdetailsArray[i].id).update({ attempt1: score});
           alert("your score"+" "+score);
           // db.collection("user_data").add({attemp1:score});
          
-          //not null ?then check attempt 2 is null & do the same
+          
           }else{
             if(userdetailsArray[i].attempt2===""){
-              const db = firebase.firestore();
+              
               db.collection("user_data").doc(userdetailsArray[i].id).update({ attempt2: score});
               alert("your score"+" "+score);
 
               // db.collection("user_data").add({ ...userdetailsArray[i], userScore});
               }else{
                   if(userdetailsArray[i].attempt3===""){
-                    const db = firebase.firestore();
+                    
                     db.collection("user_data").doc(userdetailsArray[i].id).update({ attempt3: score});
                     alert("your score"+" "+score);
 
                     // db.collection("user_data").add({ ...userdetailsArray[i], userScore});
-                  }else{ //every attempts field are not null then you can't update,
+                  }else{ 
                     alert("you tried maximum attempt!!!");
                     window.location.reload(false);
                   }
