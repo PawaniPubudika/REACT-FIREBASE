@@ -37,7 +37,6 @@ const Home = () => {
       const index = selectionArray.findIndex(
         (userAnswer) => userAnswer.quizId === quizId
       );
-      
       if (index < 0) {
         selectionArray = [...selectionArray,{ quizId, correctAnswer, userSelection },
         ];
@@ -88,12 +87,12 @@ const Home = () => {
       //check every user email in userdetailsArray equal to currentUser email
       for(let i=0;i<userdetailsArray.length;i++){
       if(userdetailsArray[i].email===currentUser.email){
-        alert("done");
-        alert(userdetailsArray[i].email+""+currentUser.email);
+        // alert("done");
+        // alert(userdetailsArray[i].email+""+currentUser.email);
         //check attempt
         //if it is equal? then check ,in that object attempt1 is null? if it is null then update score(attempt1-->score)
         if(userdetailsArray[i].attempt1===""){
-          alert("hi");
+          // alert("hi");
           const db = firebase.firestore();
           db.collection("user_data").doc(userdetailsArray[i].id).update({ attempt1: score});
           alert("your score"+" "+score);
