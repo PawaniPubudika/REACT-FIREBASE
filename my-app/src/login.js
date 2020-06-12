@@ -3,13 +3,11 @@ import { withRouter, Redirect } from "react-router";
 import app from "./firebase.js";
 import { AuthContext } from "./Auth.js";
 // import SignUp from "./SignUp.js";
-import './login.css'
+import styles from './Login.module.css'
+import login_back from './login_back.jpg';
 
 
 const Login = ({ history }) => {
-  // const [mail, setsmail] = useState([]);
-
-
   const handleLogin = useCallback(
     async event => {
       event.preventDefault();
@@ -18,14 +16,6 @@ const Login = ({ history }) => {
         await app
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
-          
-
-          // let m=email.value;
-          // setsmail(m);
-          // console.log(mail);
-          // console.log(m);
-          // const db=firebase.firestore();
-          // db.collection("scores").add({email:email.value});
   
         history.push("/");
       } catch (error) {
@@ -46,19 +36,23 @@ const Login = ({ history }) => {
   
 
   return (
-    <div>
-      <h1>Log in</h1>
-      <form onSubmit={handleLogin}>
+    <div >
+      
+      <form className={styles.login_form} onSubmit={handleLogin}>
+      {/* <img src="login_back.jpg" id="login_img" alt=""> */}
+      <img src={login_back} className={styles.login_img} alt=""></img>
+      <h1 className={styles.login_topic}>Log in</h1>
+      <div className={styles.label_div}>
         <label>
-          Email
-          <input name="email" type="email" placeholder="Email" />
+          <span className={styles.em}>Email</span>
+          <input className={styles.un} name="email" type="email" placeholder="Email" />
         </label><br/><br/>
         <label>
-          Password
-          <input name="password" type="password" placeholder="Password" />
+        <span className={styles.em}>Password</span>
+          <input className={styles.pw} name="password" type="password" placeholder="Password" />
         </label><br/><br/>
-        <button type="submit">Log in</button>
-
+        <button  className={styles.login_button} type="submit">Log in</button>
+        </div>
         
       </form>
 

@@ -4,6 +4,7 @@ import React, { useEffect, useState,useContext } from "react";
 import firebase from "./firebase.js";
 import 'firebase/firestore';
 import { AuthContext } from "./Auth.js";
+import styles from "./Home.module.css"
 
 
 
@@ -14,12 +15,8 @@ const Home = () => {
   const { currentUser } = useContext(AuthContext);
   const [spells, setSpells] = useState([]);
   const [userDetails, setuserDetails] = useState([]);
-    const [userAnswers, setUserAnswers] = React.useState([]);
-    // const [attemp1, setattemp1] = React.useState([]); 
-    // const [attemp2, setattemp2] = React.useState([]); 
-    // const [attemp3, setattemp3] = React.useState([]); 
-    // console.log(currentUser);
-    // const [userScores, setUserScores] = React.useState([]);
+  const [userAnswers, setUserAnswers] = React.useState([]);
+
         useEffect(() => {
         const fetchData = async() => {
         const db = firebase.firestore();
@@ -50,6 +47,17 @@ const Home = () => {
       setUserAnswers(selectionArray);
       // console.log(userAnswers);
     }
+
+     function display(){
+     let userdetailsArray=userDetails;
+     for(let i=0;i<userdetailsArray.length;i++){
+     if(userdetailsArray[i].email===currentUser.email){
+      alert("First attempt score: "+userdetailsArray[i].attempt1+"    "+"Second attempt score: "+userdetailsArray[i].attempt2+"    "+"Third attempt score: "+userdetailsArray[i].attempt3);
+        }
+      }
+
+     } 
+
   
 
     function dosubmit(){
@@ -70,40 +78,40 @@ const Home = () => {
             }
              }
 
-             alert("your score"+" "+score);
-             //setuserSCore  
-            //  setattemp1(score);
-            //  setattemp2(score);
-            //  setattemp3(score);  
-            //  console.log(attemp1);
+             
 
     
      //create userdetails array equal userdetails to it        
      let userdetailsArray=userDetails;
 
-      console.log(userdetailsArray[0].email);
+      console.log(userdetailsArray);
       //check every user email in userdetailsArray equal to currentUser email
       for(let i=0;i<userdetailsArray.length;i++){
-      if(userdetailsArray[i].email==currentUser.email){
+      if(userdetailsArray[i].email===currentUser.email){
         alert("done");
+        alert(userdetailsArray[i].email+""+currentUser.email);
         //check attempt
         //if it is equal? then check ,in that object attempt1 is null? if it is null then update score(attempt1-->score)
-        if(userdetailsArray[i].attemp1==null){
+        if(userdetailsArray[i].attempt1===""){
+          alert("hi");
           const db = firebase.firestore();
-          db.collection("user_data").doc(userdetailsArray[i].id).set({ attemp1: score});
+          db.collection("user_data").doc(userdetailsArray[i].id).update({ attempt1: score});
+          alert("your score"+" "+score);
           // db.collection("user_data").add({attemp1:score});
-
+         
           //not null ?then check attempt 2 is null & do the same
           }else{
-            if(userdetailsArray[i].attemp2==null){
+            if(userdetailsArray[i].attempt2===""){
               const db = firebase.firestore();
-              db.collection("user_data").doc(userdetailsArray[i].id).set({ attemp2: score});
+              db.collection("user_data").doc(userdetailsArray[i].id).update({ attempt2: score});
+              alert("your score"+" "+score);
 
               // db.collection("user_data").add({ ...userdetailsArray[i], userScore});
               }else{
-                  if(userdetailsArray[i].attemp3==null){
+                  if(userdetailsArray[i].attempt3===""){
                     const db = firebase.firestore();
-                    db.collection("user_data").doc(userdetailsArray[i].id).set({ attemp3: score});
+                    db.collection("user_data").doc(userdetailsArray[i].id).update({ attempt3: score});
+                    alert("your score"+" "+score);
 
                     // db.collection("user_data").add({ ...userdetailsArray[i], userScore});
                   }else{ //every attempts field are not null then you can't update,
@@ -144,13 +152,12 @@ const Home = () => {
               <input type="radio" name ={spell.id} value={spell.option3} onChange={(e) =>handleChange(spell.id, spell.answer, e.target.value)}/>{spell.option3}<br/>
             </li>  
           ))}
-          <br/>
-              
-              <button onClick={() => app.auth().signOut()}>Sign out</button>
-              <button type='submit' onClick={dosubmit}>Submit</button><br/><br/>
-              <button onClick={refreshPage}>Try Again</button>
-              
-              
+          <br/><br/>
+
+              <button className={styles.butt} type='submit' onClick={dosubmit}>Submit</button>
+              <button className={styles.butt} onClick={refreshPage}>Try Again</button>
+              <button className={styles.butt} onClick={display}>Result</button><br/><br/>
+              <button className={styles.butt} onClick={() => app.auth().signOut()}>Sign out</button><br/><br/>
               {/* {userDetails.map((user)=>(
 
             <li key={user.email}>
