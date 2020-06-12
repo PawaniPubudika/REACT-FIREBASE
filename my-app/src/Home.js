@@ -15,7 +15,9 @@ const Home = () => {
   const [spells, setSpells] = useState([]);
   const [userDetails, setuserDetails] = useState([]);
     const [userAnswers, setUserAnswers] = React.useState([]);
-    const [userScore, setuserScore] = React.useState([]); 
+    // const [attemp1, setattemp1] = React.useState([]); 
+    // const [attemp2, setattemp2] = React.useState([]); 
+    // const [attemp3, setattemp3] = React.useState([]); 
     // console.log(currentUser);
     // const [userScores, setUserScores] = React.useState([]);
         useEffect(() => {
@@ -70,7 +72,10 @@ const Home = () => {
 
              alert("your score"+" "+score);
              //setuserSCore  
-             setuserScore(score);  
+            //  setattemp1(score);
+            //  setattemp2(score);
+            //  setattemp3(score);  
+            //  console.log(attemp1);
 
     
      //create userdetails array equal userdetails to it        
@@ -85,20 +90,20 @@ const Home = () => {
         //if it is equal? then check ,in that object attempt1 is null? if it is null then update score(attempt1-->score)
         if(userdetailsArray[i].attemp1==null){
           const db = firebase.firestore();
-          db.collection("user_data").doc(userdetailsArray[i].id).set({ ...userdetailsArray[i], userScore});
+          db.collection("user_data").doc(userdetailsArray[i].id).set({ attemp1: score});
           // db.collection("user_data").add({attemp1:score});
 
           //not null ?then check attempt 2 is null & do the same
           }else{
             if(userdetailsArray[i].attemp2==null){
               const db = firebase.firestore();
-              db.collection("user_data").doc(userdetailsArray[i].id).set({ ...userdetailsArray[i], userScore});
+              db.collection("user_data").doc(userdetailsArray[i].id).set({ attemp2: score});
 
               // db.collection("user_data").add({ ...userdetailsArray[i], userScore});
               }else{
                   if(userdetailsArray[i].attemp3==null){
                     const db = firebase.firestore();
-                    db.collection("user_data").doc(userdetailsArray[i].id).set({ ...userdetailsArray[i], userScore});
+                    db.collection("user_data").doc(userdetailsArray[i].id).set({ attemp3: score});
 
                     // db.collection("user_data").add({ ...userdetailsArray[i], userScore});
                   }else{ //every attempts field are not null then you can't update,
